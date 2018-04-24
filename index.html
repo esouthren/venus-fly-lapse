@@ -1,0 +1,71 @@
+<html>
+	<head>
+	<title>The Venus Fly Lapse</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	</head>
+	<body>
+	</body>
+	
+	<script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+	
+	<h1>Test</h1>
+	<div class="imageBlock"></div>
+	
+	<!--
+	
+	ADD:
+	CSS to style images on top of one another
+	jquery to loop thorugh visibility of each picture rapidly..?
+	add start/stop button
+	refactor code to external JS file, css file etc
+	
+	python script to upload pics from pi
+	
+	-->
+	
+	
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDZ-ZcwyS_Ca7wsRvhun8aBnGr0pWExGqc",
+    authDomain: "venusflylapse.firebaseapp.com",
+    databaseURL: "https://venusflylapse.firebaseio.com",
+    projectId: "venusflylapse",
+    storageBucket: "venusflylapse.appspot.com",
+    messagingSenderId: "737256387807"
+  };
+  firebase.initializeApp(config);
+  var list_images_url = []
+  var database = firebase.database();
+  var images_count = 0;
+  //console.log(database);
+  
+firebase.database().ref('/').once('value').then(function(snapshot) {
+	snapshot.forEach(function(childSnapshot){
+	list_images_url.push(childSnapshot.node_.value_);
+	++images_count;
+
+	
+	
+	
+	});
+
+console.log("images count: " + images_count);
+
+console.log(list_images_url);
+var images_string = "";
+var i;
+for(i = 0; i < images_count; ++i) {
+	console.log("boop!");
+	images_string = images_string + "<img src='" + list_images_url[i] + "' alt='this is an image' height='100' />";
+	}
+console.log(images_string);
+$("div.imageBlock").html(images_string);
+  //console.log(snapshot.val());
+
+  // ...
+});
+
+
+</script>
+</html>
